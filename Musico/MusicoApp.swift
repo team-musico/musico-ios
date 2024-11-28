@@ -19,7 +19,7 @@ struct MusicoApp: App {
                 if accessToken == nil {
                     LoginView()
                 } else {
-                    ChartView()
+                    SearchView()
                         .environmentObject(loginVM)
                 }
             }

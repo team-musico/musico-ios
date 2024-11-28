@@ -1,4 +1,5 @@
 import SwiftUI
+import YouTubePlayerKit
 
 struct SearchView: View {
     @StateObject var viewModel = ChartViewModel()
@@ -8,6 +9,8 @@ struct SearchView: View {
     @State private var sideBarOn = false
     @State private var expandSheet = false
     @Namespace private var animation
+    @State private var searchText: String = ""
+
 
     var body: some View {
         VStack {
@@ -75,7 +78,32 @@ struct SearchView: View {
                             }
                             .padding(.leading, 17)
                             .padding(.top, 25)
-
+                            ZStack {
+                                if !viewModel.currentVideoId.isEmpty {
+                                    let youTubePlayer = YouTubePlayer(
+                                        source: .video(id: viewModel.currentVideoId),
+                                        configuration: .init(autoPlay: true)
+                                    )
+                                    
+                                    YouTubePlayerView(youTubePlayer) { state in
+                                        switch state {
+                                        case .idle:
+                                            ProgressView()
+                                        case .ready:
+                                            EmptyView()
+                                        case .error:
+                                            Label(
+                                                "An error occurred.",
+                                                systemImage: "xmark.circle.fill"
+                                            )
+                                            .foregroundStyle(.red)
+                                        }
+                                    }
+                                    .frame(height:0)
+                                }
+                                
+                                Spacer()
+                            }
                             ForEach(viewModel.searchSongs) { song in
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {
@@ -110,6 +138,12 @@ struct SearchView: View {
                                 .padding(.horizontal, 16)
                                 .onTapGesture {
                                     selectedSong = song
+                                    viewModel.currentVideoId.removeAll()
+                                    if let videoId = song.videoId?.first {
+                                        viewModel.currentVideoId = videoId
+                                    } else {
+                                        viewModel.fetchVideoId(for: song)
+                                    }
                                 }
                             }
                         }
