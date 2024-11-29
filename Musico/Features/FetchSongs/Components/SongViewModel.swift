@@ -1,6 +1,6 @@
 import Alamofire
 import Foundation
-import AVKit
+
 
 class ChartViewModel: ObservableObject {
     @Published var chart: [Song] = []
@@ -8,10 +8,8 @@ class ChartViewModel: ObservableObject {
     @Published var islogging = false
     @Published var searchSongs: [Song] = []
     @Published var search = ""
-    @Published var player: AVPlayer?
-    @Published var isPlaying = false
-    @Published var videoId: String = ""
-    @Published var currentVideoId: String = "" 
+    @Published var videoId = ""
+    @Published var currentVideoId = ""
     
     let serverUrl = ServerUrl.shared
     
@@ -90,8 +88,7 @@ class ChartViewModel: ObservableObject {
                           DispatchQueue.main.async {
                               if let index = self.searchSongs.firstIndex(where: { $0.trackId == song.trackId }) {
                                   self.searchSongs[index].videoId = videoIds
-                                  // videoId 업데이트 후 현재 videoId를 설정
-                                  self.currentVideoId = videoIds.first ?? ""
+                                      self.currentVideoId = videoIds.first ?? ""
                               }
                           }
                       }

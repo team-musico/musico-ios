@@ -68,12 +68,6 @@ struct ChartView: View {
                             .onTapGesture {
                                 selectedSong = song 
                             }
-//                            .background(
-//                                NavigationLink(destination: SongDetailView(song: song)) {
-//                                    EmptyView()
-//                                }
-//                                    .hidden()
-//                            )
                         }
                     }
                 } else {

@@ -12,13 +12,11 @@ struct Header: View {
 
     var body: some View {
         VStack {
-            HStack {
-//                Image("logoImage")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 175)
-                Text("로고")
-                    .font(.system(size: 35).weight(.semibold))
+            HStack(alignment:.bottom) {
+                Image("subLogoImage")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 72,height: 72)
                 Spacer()
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -29,9 +27,10 @@ struct Header: View {
                         .font(.system(size: 23))
                         
                 }
+                .padding(.bottom,17)
                 .foregroundColor(.black)
             }
-            .padding(.horizontal,20)
+            .padding(.horizontal,30)
             
             .padding(.bottom, 10)
         }
