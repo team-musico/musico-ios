@@ -1,18 +1,17 @@
-
 import SwiftUI
 import YouTubePlayerKit
-
 struct SearchView: View {
     @StateObject var viewModel = ChartViewModel()
+    @EnvironmentObject var musicPlayer: MusicManager
     @State private var selectedSong: Song? = nil
     @State private var searchClick = false
     @State private var showNilSearch = false
     @State private var sideBarOn = false
     @State private var expandSheet = false
+    @State private var showAnimation = false
     @Namespace private var animation
-    @State private var searchText: String = ""
-
-
+    
+    
     var body: some View {
         VStack {
             Header(sideBarOn: $sideBarOn)
@@ -44,11 +43,14 @@ struct SearchView: View {
                                                     }
                                                 }
                                             }
-                                            
                                         }
-
+                                    
                                     Button {
                                         if !viewModel.search.isEmpty {
+                                            if !viewModel.searchHistory.contains(viewModel.search) {
+                                                viewModel.searchHistory.insert(viewModel.search, at: 0)
+                                            }
+                                            
                                             viewModel.fetchSongs(search: viewModel.search)
                                             searchClick = true
                                             
@@ -63,16 +65,32 @@ struct SearchView: View {
                                             .padding(.top, 10)
                                             .padding(.trailing, 10)
                                     }
-                                    .foregroundColor(.secondary.opacity(0.5))
+                                    .foregroundColor(.secondary.opacity(0.5))                  
                                 }
                             }
                     }
-
+                    
                     if viewModel.search.isEmpty {
                         Spacer().frame(height: 230)
                         HStack {
                             Spacer()
                             Text("노래 제목을 입력해주세요")
+                            if !viewModel.searchHistory.isEmpty {
+                                       VStack(alignment: .leading) {
+                                           Text("최근 검색")
+                                               .font(.headline)
+                                               .padding(.leading)
+
+                                           ForEach(viewModel.searchHistory, id: \.self) { history in
+                                               Text(history)
+                                                   .padding()
+                                                   .onTapGesture {
+                                                       viewModel.search = history
+                                                       viewModel.fetchSongs(search: history)
+                                                   }
+                                           }
+                                       }
+                                   }
                             Spacer()
                         }
                     } else if searchClick {
@@ -90,32 +108,7 @@ struct SearchView: View {
                             }
                             .padding(.leading, 17)
                             .padding(.top, 25)
-                            ZStack {
-                                if !viewModel.currentVideoId.isEmpty {
-                                    let youTubePlayer = YouTubePlayer(
-                                        source: .video(id: viewModel.currentVideoId),
-                                        configuration: .init(autoPlay: true)
-                                    )
-                                    
-                                    YouTubePlayerView(youTubePlayer) { state in
-                                        switch state {
-                                        case .idle:
-                                            ProgressView()
-                                        case .ready:
-                                            EmptyView()
-                                        case .error:
-                                            Label(
-                                                "An error occurred.",
-                                                systemImage: "xmark.circle.fill"
-                                            )
-                                            .foregroundStyle(.red)
-                                        }
-                                    }
-                                    .frame(height:0)
-                                }
-                                
-                                Spacer()
-                            }
+                            
                             ForEach(viewModel.searchSongs) { song in
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {
@@ -134,6 +127,7 @@ struct SearchView: View {
                                         
                                         VStack(alignment: .leading, spacing: 0) {
                                             Text(song.title)
+                                                .frame(width: 220,alignment: .leading)
                                                 .font(.system(size: 16, weight: .semibold))
                                                 .lineLimit(1)
                                             Spacer().frame(height: 10)
@@ -144,25 +138,56 @@ struct SearchView: View {
                                         }
                                         .padding(.vertical, 8)
                                         .padding(.leading, 7)
+                                        Spacer()
+                                        if selectedSong == song {
+                                            AnimationView()
+                                                .frame(width: 10, height: 10, alignment: .trailing)
+                                        }
                                     }
                                 }
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, 16)
                                 .onTapGesture {
                                     selectedSong = song
-                                    viewModel.currentVideoId.removeAll()
+                                    viewModel.currentVideoId = ""
                                     if let videoId = song.videoId?.first {
-                                        viewModel.currentVideoId = videoId
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            viewModel.currentVideoId = videoId
+                                        }
                                     } else {
                                         viewModel.fetchVideoId(for: song)
                                     }
+                                    showAnimation = true
                                 }
                             }
                         }
                     }
                 }
             }
-
+            ZStack {
+                if !viewModel.currentVideoId.isEmpty {
+                    let youTubePlayer = YouTubePlayer(
+                        source: .video(id: viewModel.currentVideoId),
+                        configuration: .init(autoPlay: true)
+                    )
+                    
+                    YouTubePlayerView(youTubePlayer) { state in
+                        switch state {
+                        case .idle:
+                            EmptyView()
+                        case .ready:
+                            EmptyView()
+                        case .error:
+                            Label(
+                                "재생할 수 없는 곡입니다.",
+                                systemImage: "xmark.circle.fill"
+                            )
+                            .foregroundStyle(.red)
+                        }
+                    }
+                }
+                Spacer()
+            }.frame(height:0)
             if selectedSong != nil {
                 ZStack {
                     Rectangle()
@@ -188,6 +213,10 @@ struct SearchView: View {
     }
 }
 
+
 #Preview {
     SearchView()
+        .environmentObject(MusicManager())
+    
 }
+

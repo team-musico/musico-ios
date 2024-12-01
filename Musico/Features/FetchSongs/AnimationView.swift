@@ -7,8 +7,6 @@ struct AnimationView: View {
     @State private var scale4: CGFloat = 1.0
     @State private var scale5: CGFloat = 1.0
     @State private var scale6: CGFloat = 1.0
-    @State private var scale7: CGFloat = 1.0
-    @State private var scale8: CGFloat = 1.0
 
     var body: some View {
         VStack {
@@ -72,26 +70,6 @@ struct AnimationView: View {
                             .delay(1.5),
                         value: scale6
                     )
-                Capsule()
-                    .fill(Color.green)
-                    .frame(width: 1, height: 10)
-                    .scaleEffect(scale7)
-                    .animation(
-                        SwiftUI.Animation.easeInOut(duration: 0.5)
-                            .repeatForever(autoreverses: true)
-                            .delay(1.8),
-                        value: scale7
-                    )
-                Capsule()
-                    .fill(Color.green)
-                    .frame(width: 1, height: 10)
-                    .scaleEffect(scale8)
-                    .animation(
-                        SwiftUI.Animation.easeInOut(duration: 0.5)
-                            .repeatForever(autoreverses: true)
-                            .delay(2.1),
-                        value: scale8
-                    )
             }
             .padding()
 
@@ -104,8 +82,6 @@ struct AnimationView: View {
                 self.scale4 = 2.3
                 self.scale5 = 2.3
                 self.scale6 = 2.3
-                self.scale7 = 2.3
-                self.scale8 = 2.3
             }
         }
     }
