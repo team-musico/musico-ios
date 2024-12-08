@@ -24,6 +24,3 @@ struct PlaylistArtist: Codable {
     let imageUrl: String
 }
 
-struct ArtistInfo {
-    var isGroup : Bool
-}

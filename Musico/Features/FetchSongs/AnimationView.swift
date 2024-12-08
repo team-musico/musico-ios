@@ -7,6 +7,7 @@ struct AnimationView: View {
     @State private var scale4: CGFloat = 1.0
     @State private var scale5: CGFloat = 1.0
     @State private var scale6: CGFloat = 1.0
+    @State private var scale7: CGFloat = 1.0
 
     var body: some View {
         VStack {
