@@ -20,9 +20,9 @@ struct MyPlaylistView: View {
             Button("플레이리스트 생성") {
                 viewModel.createPlaylist(playlistName: playlistName) { success in
                     if success {
-                        print("플레이리스트 생성 성공!")
+                        print("플레이리스트 생성!")
                     } else {
-                        print("플레이리스트 생성 실패")
+                        print("생성 실패")
                     }
                 }
             }
