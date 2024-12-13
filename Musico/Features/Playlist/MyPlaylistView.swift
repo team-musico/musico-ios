@@ -10,10 +10,14 @@ import SwiftUI
 struct MyPlaylistView: View {
     @StateObject private var viewModel = PlaylistViewModel()
     @State private var playlistName = ""
+    @State private var descript = ""
     
     var body: some View {
         VStack {
             TextField("플레이리스트 이름을 입력하세요", text: $playlistName)
+                .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("플레이리스트에 대해 알려주세요", text: $descript)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
