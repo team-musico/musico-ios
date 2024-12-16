@@ -23,7 +23,7 @@ struct ProfileView: View {
             }
             Image(systemName: "person.crop.circle")
                 .font(.system(size: 90))
-            
+            Text("프로필")
         }
     }
 }
