@@ -30,20 +30,20 @@ struct SearchView: View {
                                     TextField("제목을 입력해주세요", text: $viewModel.search)
                                         .padding(.top, 10)
                                         .padding(.leading, 10)
-                                        .onChange(of: viewModel.search) { search in
-                                            searchClick = false
-                                            showNilSearch = false
-                                            if !viewModel.search.isEmpty {
-                                                viewModel.fetchSongs(search: viewModel.search)
-                                                searchClick = true
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                                    if viewModel.searchSongs.isEmpty {
-                                                        showNilSearch = true
-                                                    }
-                                                }
-                                            }
-                                        }
+//                                        .onChange(of: viewModel.search) { search in
+//                                            searchClick = false
+//                                            showNilSearch = false
+//                                            if !viewModel.search.isEmpty {
+//                                                viewModel.fetchSongs(search: viewModel.search)
+//                                                searchClick = true
+//                                                
+//                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                                                    if viewModel.searchSongs.isEmpty {
+//                                                        showNilSearch = true
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
                                     
                                     Button {
                                         if !viewModel.search.isEmpty {
