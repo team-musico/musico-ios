@@ -46,6 +46,7 @@ struct SearchView: View {
 //                                        }
                                     
                                     Button {
+                                        
                                         if !viewModel.search.isEmpty {
                                             if !viewModel.searchHistory.contains(viewModel.search) {
                                                 viewModel.searchHistory.insert(viewModel.search, at: 0)
