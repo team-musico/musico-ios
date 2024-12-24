@@ -61,6 +61,7 @@ struct SearchView: View {
                                                 }
                                             }
                                         }
+                                        
                                     } label: {
                                         Image(systemName: "magnifyingglass")
                                             .padding(.top, 10)
