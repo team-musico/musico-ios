@@ -67,7 +67,7 @@ struct SearchView: View {
                                             .padding(.top, 10)
                                             .padding(.trailing, 10)
                                     }
-                                    .foregroundColor(.secondary.opacity(0.5))                  
+                                    .foregroundColor(.secondary.opacity(0.6))                  
                                 }
                             }
                     }
