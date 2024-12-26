@@ -16,5 +16,6 @@ struct ServerUrl {
     
     static let shared = ServerUrl()
     
+    
     private init() {}
 }
