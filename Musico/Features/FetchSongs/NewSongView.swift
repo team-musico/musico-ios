@@ -20,7 +20,7 @@ struct NewSongView: View {
             ScrollView {
                 Text("최신 노래")
                     .font(.system(size: 21).weight(.bold))
-                    .padding(.trailing, 280)
+                    .padding(.trailing, 180)
                 
                 if viewModel.islogging {
                     LazyVStack(alignment: .leading) {
