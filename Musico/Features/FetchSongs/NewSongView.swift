@@ -22,6 +22,7 @@ struct NewSongView: View {
                     .font(.system(size: 21).weight(.bold))
                     .padding(.trailing, 180)
                 
+                
                 if viewModel.islogging {
                     LazyVStack(alignment: .leading) {
                         ForEach(viewModel.newSongs) { song in
