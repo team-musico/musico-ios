@@ -41,6 +41,7 @@ struct NewSongView: View {
                                             .frame(width: 65, height: 65)
                                     }
                                     
+                            
                                     
                                     VStack(alignment: .leading, spacing: 0) {
                                         Text(song.title)
