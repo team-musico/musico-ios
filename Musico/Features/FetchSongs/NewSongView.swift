@@ -23,6 +23,7 @@ struct NewSongView: View {
                     .padding(.trailing, 180)
                 
                 
+                
                 if viewModel.islogging {
                     LazyVStack(alignment: .leading) {
                         ForEach(viewModel.newSongs) { song in
